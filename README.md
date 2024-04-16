@@ -11,7 +11,7 @@ Only works with the specifically developed machine logic runtime application for
 
 Run the main file with arguments to test the connection nd retrieve all data.
 ```bash
-python ./src/amit_hvac_control/__main__.py --host=<internal network address> --username=<username> --password=<password>
+python ./src/amit_hvac_control/__main__.py --host=<internal_network_address> --username=<username> --password=<password>
 ```
 
 ## Build

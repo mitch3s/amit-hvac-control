@@ -12,12 +12,14 @@ class DataResult:
     def __init__(
         self,
         temperature: float,
+        air_temperature: float,
         co_2: int,
         ventilation_mode: VentilationMode,
         season: Season,
         heating_mode: HeatingMode,
     ):
         self.temperature = temperature
+        self.air_temperature = air_temperature
         self.co_2 = co_2
         self.ventilation_mode = ventilation_mode
         self.season = season
@@ -25,8 +27,9 @@ class DataResult:
 
     def __str__(self):
         return f"""
-Temp:   {self.temperature}
-CO2:    {self.co_2}
+Air temperature:    {self.temperature}
+Room temperature:   {self.air_temperature}
+CO2:                {self.co_2}
 Ventilation:    {self.ventilation_mode.name}
 Comfort mode:   {self.heating_mode.name}
 Season:         {self.season.name}
@@ -47,16 +50,19 @@ class StatusApi:
     def _extract_overview_details(self, content: str):
         soup = BeautifulSoup(content, "html.parser")
 
-        temp_el = soup.find(class_="AWNumericView1")
+        room_temp_el = soup.find(class_="AWNumericView1")
+        air_room_temp_el = soup.find(class_="AWNumericView3")
         [co2_el] = soup.select(".AWNumericView2,.AWNumericView2-alert-max")
 
         labels = self._get_aws_case_labels(content)
 
-        temp_val = float(temp_el.text)
+        temp_val = float(room_temp_el.text)
+        air_temp_val = float(air_room_temp_el.text)
         co2_val = int(co2_el.text)
 
         return DataResult(
             temperature=temp_val,
+            air_temperature=air_temp_val,
             co_2=co2_val,
             ventilation_mode=labels["ventilation"],
             season=labels["season"],
