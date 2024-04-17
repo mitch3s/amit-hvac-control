@@ -19,3 +19,10 @@ python ./src/amit_hvac_control/__main__.py --host=<internal_network_address> --u
 ```bash
 python -m build
 ```
+
+## Publish
+
+```bash
+python3 -m pip install --upgrade twine
+python3 -m twine upload --repository pypi dist/*
+```

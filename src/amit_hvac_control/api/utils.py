@@ -7,6 +7,5 @@ def get_multipart_data(post: dict):
             part = mp.append(str(value))
 
             del part._headers["Content-Type"]
-            del part._headers["Content-Length"]
             part.set_content_disposition("form-data", name=key)
         return mp
